@@ -2,6 +2,8 @@ package com.example.demo.Models;
 
 import lombok.Data;
 
+import java.time.Instant;
+
 @Data
 public class Vote {
     public Instant publishedAt;
