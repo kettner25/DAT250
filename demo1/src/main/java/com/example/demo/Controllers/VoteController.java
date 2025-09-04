@@ -89,7 +89,7 @@ class VoteController {
     /**
      * Delete vote by user and voteOpt id
      * */
-    @DeleteMapping("/user/{name}/{id}")
+    @DeleteMapping("/vote/{name}/{id}")
     public boolean Delete(@PathVariable String name, @PathVariable int id) {
         var user = data.getUserByName(name);
 

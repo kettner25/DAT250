@@ -46,7 +46,11 @@ public class PollController {
 
         if (!poll.Validate()) return false;
 
-        poll.setId(data.getData().getPolls().size());
+        var maxID = data.getData().getPolls().stream().toList().stream().
+                max((p1, p2) -> Integer.compare(p1.getId(), p2.getId()))
+                .orElse(null);
+
+        poll.setId(maxID==null ? 0 : maxID.getId() + 1);
         poll.setCreator(user);
 
         data.getData().getPolls().add(poll);
