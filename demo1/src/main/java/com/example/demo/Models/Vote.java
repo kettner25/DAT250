@@ -7,5 +7,7 @@ import java.time.Instant;
 @Data
 public class Vote {
     public Instant publishedAt;
+
     public VoteOption option;
+    public User user;
 }
