@@ -6,6 +6,6 @@ import java.util.HashSet;
 
 @Data
 public class PollManager {
-    public static HashSet<User> users;
-    public static HashSet<Poll> polls;
+    public HashSet<User> users;
+    public HashSet<Poll> polls;
 }
