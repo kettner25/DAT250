@@ -20,9 +20,7 @@ public class PollController {
      * */
     @GetMapping("/poll/{id}")
     public Poll Fetch(@PathVariable int id) {
-        return data.getData().getPolls().stream()
-                .filter(i -> i.getId() == id)
-                .findFirst().orElse(null);
+        return data.getPollById(id);
     }
 
     /**
@@ -30,9 +28,7 @@ public class PollController {
      * */
     @GetMapping("/poll/{name}")
     public List<Poll> FetchAll(@PathVariable String name) {
-        var user = data.getData().users.stream()
-                .filter(i -> i.getUsername().equals(name))
-                .findFirst().orElse(null);
+        var user = data.getUserByName(name);
 
         if (user == null) return null;
 
@@ -44,9 +40,7 @@ public class PollController {
      * */
     @PostMapping("/poll/{name}")
     public boolean Create(@PathVariable String name, @RequestBody Poll poll) {
-        var user = data.getData().getUsers().stream()
-                .filter(i -> i.getUsername().equals(name))
-                .findFirst().orElse(null);
+        var user = data.getUserByName(name);
 
         if (user == null) return false;
 
@@ -61,11 +55,12 @@ public class PollController {
         return true;
     }
 
+    /**
+     * Update poll by its ID
+     * */
     @PutMapping("/poll/{id}")
     public boolean Update(@PathVariable int id, @RequestBody Poll poll) {
-        var _poll = data.getData().getPolls().stream()
-                .filter(i -> i.getId() == id)
-                .findFirst().orElse(null);
+        var _poll = data.getPollById(id);
 
         if (_poll == null) return false;
 
@@ -81,11 +76,12 @@ public class PollController {
         return true;
     }
 
+    /**
+     * Delete poll by its id
+     * */
     @DeleteMapping("/poll/{id}")
     public boolean Delete(@PathVariable int id) {
-        var poll = data.getData().getPolls().stream()
-                .filter(i -> i.getId() == id)
-                .findFirst().orElse(null);
+        var poll = data.getPollById(id);
 
         if (poll == null) return false;
 
