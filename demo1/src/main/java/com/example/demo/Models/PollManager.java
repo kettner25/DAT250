@@ -8,4 +8,5 @@ import java.util.HashSet;
 public class PollManager {
     public HashSet<User> users;
     public HashSet<Poll> polls;
+    public HashSet<VoteOption> voteOpts;
 }

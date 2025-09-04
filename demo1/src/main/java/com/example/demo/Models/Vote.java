@@ -10,4 +10,9 @@ public class Vote {
 
     public VoteOption option;
     public User user;
+
+    //TODO
+    public boolean Validate() {
+        return true;
+    }
 }
