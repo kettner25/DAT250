@@ -34,7 +34,7 @@ public class VoteOptionController {
     /**
      * Create vote option
      * */
-    @PostMapping("/opt")
+    @PostMapping("/opt/")
     public boolean Create(@RequestBody VoteOption opt) {
         if (!opt.Validate()) return false;
 
@@ -74,7 +74,7 @@ public class VoteOptionController {
 
         if (opt == null) return false;
 
-        data.getData().getVoteOpts().remove(opt);
+        data.getData().getVoteOpts().removeIf(f -> f.getId() == id);
 
         return true;
     }
