@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 @Data
 public class PollManager {
-    public HashSet<User> users = new HashSet<>();
-    public HashSet<Poll> polls = new HashSet<>();
-    public HashSet<VoteOption> voteOpts = new HashSet<>();
+    private HashSet<User> users = new HashSet<>();
+    private HashSet<Poll> polls = new HashSet<>();
+    private HashSet<VoteOption> voteOpts = new HashSet<>();
 }

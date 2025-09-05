@@ -8,13 +8,13 @@ import java.util.List;
 
 @Data
 public class VoteOption {
-    public int id = -1;
+    private int id = -1;
 
-    public String caption;
-    public int presentationOrder;
+    private String caption;
+    private int presentationOrder;
 
     @JsonIgnore
-    public List<Vote> votes = new ArrayList<>();
+    private List<Vote> votes = new ArrayList<>();
 
     public boolean Validate() {
         if (caption == null || caption.isEmpty()) return false;

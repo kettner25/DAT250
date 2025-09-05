@@ -6,10 +6,10 @@ import java.time.Instant;
 
 @Data
 public class Vote {
-    public Instant publishedAt;
+    private Instant publishedAt;
 
-    public VoteOption option;
-    public User user;
+    private VoteOption option;
+    private User user;
 
     public boolean Validate() {
         if (publishedAt == null) return false;

@@ -9,13 +9,13 @@ import java.util.List;
 @Data
 public class User {
     //Unique
-    public String username;
-    public String email;
+    private String username;
+    private String email;
 
     @JsonIgnore
-    public List<Poll> created = new ArrayList<>();
+    private List<Poll> created = new ArrayList<>();
     @JsonIgnore
-    public List<Vote> voted = new ArrayList<>();
+    private List<Vote> voted = new ArrayList<>();
 
 
     public boolean Validate() {

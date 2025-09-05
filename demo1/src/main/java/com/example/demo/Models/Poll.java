@@ -15,15 +15,15 @@ import java.util.List;
 @EqualsAndHashCode(exclude = "creator")
 public class Poll {
     //Unique
-    public int id = -1;
+    private int id = -1;
 
-    public String question;
-    public Instant publishedAt;
-    public Instant validUntil;
+    private String question;
+    private Instant publishedAt;
+    private Instant validUntil;
 
-    public List<VoteOption> voteOpts = new ArrayList<>();
+    private List<VoteOption> voteOpts = new ArrayList<>();
 
-    public User creator;
+    private User creator;
 
     public boolean Validate() {
         if (question == null) return false;
