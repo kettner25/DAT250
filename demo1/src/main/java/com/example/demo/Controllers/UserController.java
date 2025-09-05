@@ -16,6 +16,16 @@ public class UserController {
         this.data = _data;
     }
 
+
+    /**
+     * Get all users
+     * */
+    @GetMapping("/user/")
+    public List<User> FetchAll() {
+        return data.getData().getUsers().stream().toList();
+    }
+
+
     /**
      * Get user by its ID
      * */
@@ -30,6 +40,8 @@ public class UserController {
     @PostMapping("/user/")
     public boolean Create(@RequestBody User user) {
         if (!user.Validate()) return false;
+
+        if (data.getUserByName(user.getUsername()) != null) return false;
 
         user.setCreated(new ArrayList<>());
         user.setVoted(new ArrayList<>());
@@ -50,9 +62,9 @@ public class UserController {
 
         if (!user.Validate()) return false;
 
-        _user.setEmail(user.getEmail());
-
         if (!name.equals(user.getUsername())) {
+            if (data.getUserByName(user.getUsername()) != null) return false;
+
             _user.setUsername(user.getUsername());
 
             for (int i = 0; i < _user.getVoted().size(); ++i) {
@@ -63,6 +75,8 @@ public class UserController {
                 _user.getCreated().get(i).getCreator().setUsername(user.getUsername());
             }
         }
+
+        _user.setEmail(user.getEmail());
 
         return true;
     }
@@ -80,7 +94,7 @@ public class UserController {
             data.getData().getPolls().remove(user.getCreated().get(i));
         }
 
-        data.getData().getUsers().remove(user);
+        data.getData().getUsers().removeIf(f -> f.getUsername().equals(name));
 
         return true;
     }
