@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class DomainManager {
     @Getter
     @Setter
-    public PollManager data;
+    public PollManager data = new PollManager();
 
     public Poll getPollById(int id) {
         return data.getPolls().stream()

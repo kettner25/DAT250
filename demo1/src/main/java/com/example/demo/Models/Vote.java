@@ -11,8 +11,11 @@ public class Vote {
     public VoteOption option;
     public User user;
 
-    //TODO
     public boolean Validate() {
+        if (publishedAt == null) return false;
+        if (option == null) return false;
+        if (user == null) return false;
+
         return true;
     }
 }

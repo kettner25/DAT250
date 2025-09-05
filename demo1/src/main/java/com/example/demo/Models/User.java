@@ -17,8 +17,10 @@ public class User {
     @JsonIgnore
     public List<Vote> voted = new ArrayList<>();
 
-    //TODO
+
     public boolean Validate() {
+        if (username == null || username.isEmpty() || email == null || email.isEmpty()) return false;
+
         return true;
     }
 }

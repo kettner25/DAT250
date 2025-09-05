@@ -16,8 +16,10 @@ public class VoteOption {
     @JsonIgnore
     public List<Vote> votes = new ArrayList<>();
 
-    //TODO
     public boolean Validate() {
+        if (caption == null || caption.isEmpty()) return false;
+        if (presentationOrder < 1) return false;
+
         return true;
     }
 }

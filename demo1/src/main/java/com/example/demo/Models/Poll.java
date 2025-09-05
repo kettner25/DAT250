@@ -17,8 +17,11 @@ public class Poll {
     public List<VoteOption> voteOpts = new ArrayList<>();
     public User creator;
 
-    //TODO
     public boolean Validate() {
+        if (question == null) return false;
+        if (publishedAt == null) return false;
+        if (validUntil == null) return false;
+
         return true;
     }
 }
