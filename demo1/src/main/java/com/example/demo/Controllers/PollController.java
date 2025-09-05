@@ -72,7 +72,8 @@ public class PollController {
 
         if (!poll.Validate()) return false;
 
-        if (!poll.getCreator().getUsername().equals(_poll.getCreator().getUsername())) return false;
+        //This is now not possible
+        //if (!poll.getCreator().getUsername().equals(_poll.getCreator().getUsername())) return false;
 
         _poll.setQuestion(poll.getQuestion());
         _poll.setVoteOpts(poll.getVoteOpts());

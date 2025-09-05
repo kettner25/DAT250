@@ -23,6 +23,7 @@ public class Poll {
 
     private List<VoteOption> voteOpts = new ArrayList<>();
 
+    @JsonIgnore
     private User creator;
 
     public boolean Validate() {

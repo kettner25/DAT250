@@ -12,11 +12,8 @@ public class User {
     private String username;
     private String email;
 
-    @JsonIgnore
     private List<Poll> created = new ArrayList<>();
-    @JsonIgnore
     private List<Vote> voted = new ArrayList<>();
-
 
     public boolean Validate() {
         if (username == null || username.isEmpty() || email == null || email.isEmpty()) return false;

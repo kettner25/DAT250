@@ -48,11 +48,11 @@ class VoteController {
     /**
      * Create vote by user
      * */
-    @PostMapping("/vote/")
-    public boolean Create(@RequestBody Vote vote) {
+    @PostMapping("/vote/{name}")
+    public boolean Create(@PathVariable String name, @RequestBody Vote vote) {
         if (!vote.Validate()) return false;
 
-        var user = data.getUserByName(vote.getUser().getUsername());
+        var user = data.getUserByName(name);
 
         if (user == null) return false;
 
@@ -77,7 +77,9 @@ class VoteController {
         var user =  data.getUserByName(name);
 
         if (user == null) return false;
-        if (!user.getUsername().equals(vote.getUser().getUsername())) return false;
+
+        //this is now not possible
+        //if (!user.getUsername().equals(vote.getUser().getUsername())) return false;
 
         if (!vote.Validate()) return false;
 

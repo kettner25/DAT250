@@ -505,7 +505,7 @@ class Demo1ApplicationTests {
 
         //Changing
         polls.get(0).setQuestion("About Question 02.");
-        polls.get(1).setCreator(user2);
+        //polls.get(1).setCreator(user2);
         mockMvc.perform(put("/poll/user1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(polls.get(0))))
@@ -513,6 +513,7 @@ class Demo1ApplicationTests {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string("true"));
 
+        /*
         mockMvc.perform(put("/poll/user1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(polls.get(1))))
@@ -521,6 +522,8 @@ class Demo1ApplicationTests {
                 .andExpect(content().string("false"));
 
         polls.get(1).setCreator(user1);
+        */
+
 
         //Check if were edited
         mockMvc.perform(get("/poll/user1"))
@@ -632,7 +635,7 @@ class Demo1ApplicationTests {
         List<Vote> votes = new ArrayList<>();
         votes.add(vote);
 
-        mockMvc.perform(post("/vote/")
+        mockMvc.perform(post("/vote/user1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(vote)))
                 .andExpect(status().isOk())
@@ -655,7 +658,7 @@ class Demo1ApplicationTests {
         vote.setPublishedAt(Instant.now());
         votes.add(vote);
 
-        mockMvc.perform(post("/vote/")
+        mockMvc.perform(post("/vote/user1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(vote)))
                 .andExpect(status().isOk())
@@ -681,7 +684,7 @@ class Demo1ApplicationTests {
         List<Vote> votes2 = new ArrayList<>();
         votes2.add(vote);
 
-        mockMvc.perform(post("/vote/")
+        mockMvc.perform(post("/vote/user2")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(vote)))
                 .andExpect(status().isOk())
@@ -702,7 +705,7 @@ class Demo1ApplicationTests {
         vote.setUser(null);
         vote.setPublishedAt(Instant.now());
 
-        mockMvc.perform(post("/vote/")
+        mockMvc.perform(post("/vote/user1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(vote)))
                 .andExpect(status().isOk())
@@ -710,7 +713,7 @@ class Demo1ApplicationTests {
                 .andExpect(content().string("false"));
 
         vote.setUser(user1);
-        mockMvc.perform(post("/vote/")
+        mockMvc.perform(post("/vote/user1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(vote)))
                 .andExpect(status().isOk())
@@ -718,7 +721,7 @@ class Demo1ApplicationTests {
                 .andExpect(content().string("false"));
 
         vote.setOption(voteOptions.get(1));
-        mockMvc.perform(post("/vote/")
+        mockMvc.perform(post("/vote/user1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(vote)))
                 .andExpect(status().isOk())
@@ -740,7 +743,7 @@ class Demo1ApplicationTests {
         vote.setUser(user2);
         votes2.add(vote);
 
-        mockMvc.perform(post("/vote/")
+        mockMvc.perform(post("/vote/user2")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(vote)))
                 .andExpect(status().isOk())
