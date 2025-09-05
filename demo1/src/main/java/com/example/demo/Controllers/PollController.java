@@ -90,7 +90,7 @@ public class PollController {
         if (poll == null) return false;
 
         poll.getCreator().getCreated().remove(poll);
-        data.getData().getPolls().remove(poll);
+        data.getData().getPolls().removeIf(f -> f.getId() == id);
 
         return true;
     }

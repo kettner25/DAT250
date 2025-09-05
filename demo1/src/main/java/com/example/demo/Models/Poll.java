@@ -21,6 +21,7 @@ public class Poll {
         if (question == null) return false;
         if (publishedAt == null) return false;
         if (validUntil == null) return false;
+        if (voteOpts.size() < 2) return false;
 
         return true;
     }
