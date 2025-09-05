@@ -30,21 +30,40 @@ class VoteController {
     }
 
     /**
-     * Create vote by user
+     * Get all votes of user by its name
      * */
-    @PostMapping("/vote/{name}")
-    public boolean Create(@PathVariable String name, @RequestBody Vote vote) {
+    @GetMapping("/vote/{name}/{id}")
+    public Vote FetchOne(@PathVariable String name, @PathVariable int id) {
         var user = data.getUserByName(name);
 
-        if (user == null) return false;
+        if (user == null) return null;
 
+        var opt = data.getVoteOptById(id);
+
+        if (opt == null) return null;
+
+        return user.getVoted().stream().filter(f -> f.getOption().getId() == id).findFirst().orElse(null);
+    }
+
+    /**
+     * Create vote by user
+     * */
+    @PostMapping("/vote/")
+    public boolean Create(@RequestBody Vote vote) {
         if (!vote.Validate()) return false;
+
+        var user = data.getUserByName(vote.getUser().getUsername());
+
+        if (user == null) return false;
 
         var opt = data.getVoteOptById(vote.getOption().getId());
 
         if (opt == null) return false;
 
+        if (user.getVoted().stream().filter(f -> f.getOption().getId() == opt.getId()).findFirst().orElse(null) != null) return false;
+
         vote.setOption(opt);
+        vote.setUser(user);
         user.getVoted().add(vote);
 
         return true;
@@ -58,7 +77,7 @@ class VoteController {
         var user =  data.getUserByName(name);
 
         if (user == null) return false;
-        if (!user.getVoted().equals(vote.getUser().getVoted())) return false;
+        if (!user.getUsername().equals(vote.getUser().getUsername())) return false;
 
         if (!vote.Validate()) return false;
 
@@ -77,6 +96,8 @@ class VoteController {
             var tmp = data.getVoteOptById(vote.getOption().getId());
 
             if (tmp == null) return false;
+
+            if (user.getVoted().stream().anyMatch(f -> f.getOption().getId() == tmp.getId())) return false;
 
             _vote.setOption(tmp);
         }

@@ -1,11 +1,18 @@
 package com.example.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+
+//needs to be added because of recursion when hashcode is being calc
+@EqualsAndHashCode(exclude = "creator")
 public class Poll {
     //Unique
     public int id = -1;
@@ -15,6 +22,7 @@ public class Poll {
     public Instant validUntil;
 
     public List<VoteOption> voteOpts = new ArrayList<>();
+
     public User creator;
 
     public boolean Validate() {

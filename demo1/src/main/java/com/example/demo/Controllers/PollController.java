@@ -18,8 +18,8 @@ public class PollController {
     /**
      * Get poll by its ID
      * */
-    @GetMapping("/poll/{id}")
-    public Poll Fetch(@PathVariable int id) {
+    @GetMapping("/poll/{name}/{id}")
+    public Poll Fetch(@PathVariable String name, @PathVariable int id) {
         return data.getPollById(id);
     }
 
@@ -62,11 +62,13 @@ public class PollController {
     /**
      * Update poll by its ID
      * */
-    @PutMapping("/poll/{id}")
-    public boolean Update(@PathVariable int id, @RequestBody Poll poll) {
-        var _poll = data.getPollById(id);
+    @PutMapping("/poll/{name}")
+    public boolean Update(@PathVariable String name, @RequestBody Poll poll) {
+        var user = data.getUserByName(name);
 
-        if (_poll == null) return false;
+        if (user == null) return false;
+
+        var _poll = data.getPollById(poll.getId());
 
         if (!poll.Validate()) return false;
 
