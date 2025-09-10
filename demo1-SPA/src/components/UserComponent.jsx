@@ -11,19 +11,19 @@ User {
 }
 /**/
 
-export default function User({users, setUsers, user, setUser}) {
+export default function User({users, setUsers, username, setUsername}) {
     const handleClick = (user) => {
         if (user == null || user == undefined) return;
 
         console.log("User selected:", user.username);
 
-        setUser(user);
+        setUsername(user.username);
     };
     
     return (
         <div className="users">
             {users.map(u =>
-                <div className={u.username == user?.username ? "user selected" : "user"} onClick={() => handleClick(u)} key={u.username} data-key={u.username}>
+                <div className={u.username == username ? "user selected" : "user"} onClick={() => handleClick(u)} key={u.username} data-key={u.username}>
                     <div> Name: {u.username} </div> 
                     <div> Email: {u.email} </div>
                     <hr></hr>

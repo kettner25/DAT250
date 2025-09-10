@@ -4,9 +4,9 @@ import { useState } from "react";
 export default function Vote({ optId }) {
     const [voted, setVoted] = useState(false);  
     const handleVote = () => {
-        if (!voted) {
-        }
-        setVoted(true);
+        console.log("Voted for option ID:", optId);
+        
+        setVoted(!voted);
     };
 
     return (

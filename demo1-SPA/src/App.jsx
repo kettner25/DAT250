@@ -5,9 +5,28 @@ import User from "./components/UserComponent";
 import { useState } from "react";
 
 function App() {
-  const [polls, setPolls] = useState([]);
   const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUsername, setCurrentUsername] = useState("");
+
+  const setPolls = (array) => {
+    if (!currentUser) return;
+
+    setUsers((prev) =>
+      prev.map((user) =>
+        (user.username == currentUser.username ? { ...user, created: array } : user)
+      )
+    );
+  };
+
+  const setVotes = (array) => {
+    setUsers((prev) =>
+      prev.map((user) =>
+        user.username == currentUser?.username ? { ...user, voted: array } : user
+      )
+    );
+  };
+
+  const currentUser = users.find((u) => u.username == currentUsername);
 
   return (
     <BrowserRouter>
@@ -19,9 +38,9 @@ function App() {
 
       <div className="p-6">
         <Routes>
-          <Route path="/User" element={<User users={users} setUsers={setUsers} user={currentUser} setUser={setCurrentUser} />} />
-          <Route path="/NewPoll" element={<NewPoll polls={polls} setPolls={setPolls} />} />
-          <Route path="/Polls" element={<Polls polls={polls} />} />
+          <Route path="/User" element={<User users={users} setUsers={setUsers} username={currentUsername} setUsername={setCurrentUsername} />} />
+          <Route path="/NewPoll" element={<NewPoll polls={currentUser?.created} setPolls={setPolls} />} />
+          <Route path="/Polls" element={<Polls polls={currentUser?.created} />} />
         </Routes>
       </div>
     </BrowserRouter>

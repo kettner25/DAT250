@@ -22,7 +22,7 @@ VoteOpt {
 /**/
 
 export default function Polls({polls}) {
-    if (polls == null || polls.length < 1) return <div>No polls available.</div>;
+    if (polls == null || polls.length < 1 || polls == undefined) return <div>No polls available.</div>;
 
     return (
         <div className="polls">
@@ -32,6 +32,8 @@ export default function Polls({polls}) {
 }
 
 export function NewPoll({polls, setPolls}) {
+    if (polls == null || polls == undefined) return <div>No polls available.</div>;
+
     const [question, setQuestion] = useState("");
     const [valid, setDate] = useState("");
     const [opts, setOpts] = useState([]);
@@ -96,7 +98,7 @@ export function NewPoll({polls, setPolls}) {
 }
 
 export function Poll({id, polls}) {
-    let poll = polls.find(p => p.id == id);   
+    let poll = polls?.find(p => p.id == id);   
     
     if (poll == null || poll == undefined) return;
 
