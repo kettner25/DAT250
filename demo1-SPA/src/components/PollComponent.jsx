@@ -33,21 +33,23 @@ export default function Polls() {
 
 export function NewPoll() {
     const [question, setQuestion] = useState("");
-    const [valid, setDate] = useState(Date.now());
+    const [valid, setDate] = useState("");
     const [opts, setOpts] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        if (question.trim() === "" || opts.length === 0) return;
+        if (question.trim() === "" || opts == null || opts.length < 1) return;
         
+        if (isNaN(Date.parse(valid)) || new Date(valid) <= new Date(Date.now())) return;
+
         console.log("Creating poll:", question, valid, opts);
 
         // Create new poll object
         const newPoll = {
             id: polls.length + 1,
             question: question,
-            publishedAt: Date.now(),
+            publishedAt: new Date(Date.now()).toISOString(),
             validUntil: valid,
             voteOpts: opts,
         };
@@ -55,7 +57,7 @@ export function NewPoll() {
 
         // Reset form
         setQuestion("");
-        setDate(Date.now());
+        setDate("");
         setOpts([]);
     };
 
@@ -70,7 +72,7 @@ export function NewPoll() {
                 </label>
                 <label>
                     Valid Until:
-                    <input type="datetime-local" name="validUntil" value={valid} onChange={(e) => setDate(e.target.value)} required />
+                    <input type="date" name="validUntil" value={valid} onChange={(e) => setDate(e.target.value)} required />
                 </label>
                 <NewOpt opts={opts} setOpts={setOpts} />
                 
@@ -91,6 +93,8 @@ export function NewPoll() {
 export function Poll(id) {
     let poll = getPollById(id);   
     
+    if (poll == null || poll == undefined) return;
+
     return (
       <div className="poll">
         <h2>{poll.question}</h2>
@@ -102,14 +106,16 @@ export function Poll(id) {
 }
 
 function getPollById(id) {
-    return polls.find(p => p.id === id);
+    return polls.find(p => p.id == id.id);
 }
 
 export function Opts({data}) {
+    let index = 0;
+
     return (
         <ul className="opts">
             {data.map(o => 
-            <li key={o.id}>
+            <li key={index++}>
                 {o.caption}
                 <Vote optId={o.id} />
             </li>)}
