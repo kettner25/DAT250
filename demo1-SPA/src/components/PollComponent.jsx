@@ -39,7 +39,7 @@ export function NewPoll() {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        if (question.trim() === "" || opts == null || opts.length < 1) return;
+        if (question.trim() === "" || opts == null || opts.length < 2) return;
         
         if (isNaN(Date.parse(valid)) || new Date(valid) <= new Date(Date.now())) return;
 
@@ -56,6 +56,10 @@ export function NewPoll() {
         polls.push(newPoll);
 
         // Reset form
+        handleReset();
+    };
+
+    const handleReset = () => {
         setQuestion("");
         setDate("");
         setOpts([]);
@@ -65,7 +69,7 @@ export function NewPoll() {
         <dialog className="new-poll">
             <button className="close">×</button>
             <h2>Create New Poll</h2>
-            <form method="dialog" onSubmit={handleSubmit}>
+            <form method="dialog" onSubmit={handleSubmit} onReset={handleReset}>
                 <label>
                     Question:
                     <input type="text" name="question" value={question} onChange={(e) => setQuestion(e.target.value)} required />
@@ -83,7 +87,7 @@ export function NewPoll() {
 
                 <menu>
                     <button type="submit">Create Poll</button>
-                    <button type="reset">Cancel</button>
+                    <button type="reset">Clear</button>
                 </menu>
             </form>
         </dialog>
@@ -110,12 +114,10 @@ function getPollById(id) {
 }
 
 export function Opts({data}) {
-    let index = 0;
-
     return (
         <ul className="opts">
-            {data.map(o => 
-            <li key={index++}>
+            {data.map((o, index) => 
+            <li key={index}>
                 {o.caption}
                 <Vote optId={o.id} />
             </li>)}
