@@ -21,17 +21,17 @@ VoteOpt {
 }
 /**/
 
-let polls = [];
+export default function Polls({polls}) {
+    if (polls == null || polls.length < 1) return <div>No polls available.</div>;
 
-export default function Polls() {
     return (
         <div className="polls">
-            {polls.map(p => <Poll key={p.id} id={p.id} />)}
+            {polls.map(p => <Poll key={p.id} id={p.id} polls={polls} />)}
         </div>
     );
 }
 
-export function NewPoll() {
+export function NewPoll({polls, setPolls}) {
     const [question, setQuestion] = useState("");
     const [valid, setDate] = useState("");
     const [opts, setOpts] = useState([]);
@@ -53,7 +53,8 @@ export function NewPoll() {
             validUntil: valid,
             voteOpts: opts,
         };
-        polls.push(newPoll);
+        setPolls([...polls, newPoll]); 
+        //polls.push(newPoll);
 
         // Reset form
         handleReset();
@@ -94,8 +95,8 @@ export function NewPoll() {
     );
 }
 
-export function Poll(id) {
-    let poll = getPollById(id);   
+export function Poll({id, polls}) {
+    let poll = polls.find(p => p.id == id);   
     
     if (poll == null || poll == undefined) return;
 
@@ -107,10 +108,6 @@ export function Poll(id) {
         </div>
       </div>  
     );
-}
-
-function getPollById(id) {
-    return polls.find(p => p.id == id.id);
 }
 
 export function Opts({data}) {
