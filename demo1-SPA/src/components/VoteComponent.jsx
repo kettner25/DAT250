@@ -1,17 +1,26 @@
 
 import { useState } from "react";
 
-export default function Vote({ optId }) {
-    const [voted, setVoted] = useState(false);  
+/*Vote consisted of
+Vote {
+    publishedAt: Date,
+    option: VoteOption
+}
+/**/
+
+export default function Vote({ opt, votes, setVotes }) {
+    const voted = votes?.some(v => v.option.id == opt.id);
+    
     const handleVote = () => {
-        console.log("Voted for option ID:", optId);
-        
-        setVoted(!voted);
+        console.log("Voted for option ID:", opt.id, " Voted:", !voted);
+
+        if (voted) setVotes(votes.filter((vote) => vote.option.id != opt.id));
+        else setVotes([...votes, { publishedAt: new Date(Date.now()).toString("yyyy-MM-dd"), option: opt }]);
     };
 
     return (
-        <button onClick={handleVote} disabled={voted}>
-            {voted ? "Voted" : "Vote"}
+        <button onClick={handleVote}>
+            {voted ? "Unvote" : "Vote"}
         </button>
     );
 }

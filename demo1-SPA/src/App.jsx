@@ -19,9 +19,11 @@ function App() {
   };
 
   const setVotes = (array) => {
+    if (!currentUser) return;
+
     setUsers((prev) =>
       prev.map((user) =>
-        user.username == currentUser?.username ? { ...user, voted: array } : user
+        (user.username == currentUser?.username ? { ...user, voted: array } : user)
       )
     );
   };
@@ -40,7 +42,7 @@ function App() {
         <Routes>
           <Route path="/User" element={<User users={users} setUsers={setUsers} username={currentUsername} setUsername={setCurrentUsername} />} />
           <Route path="/NewPoll" element={<NewPoll polls={currentUser?.created} setPolls={setPolls} />} />
-          <Route path="/Polls" element={<Polls polls={currentUser?.created} />} />
+          <Route path="/Polls" element={<Polls polls={currentUser?.created} votes={currentUser?.voted} setVotes={setVotes} />} />
         </Routes>
       </div>
     </BrowserRouter>

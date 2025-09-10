@@ -21,12 +21,12 @@ VoteOpt {
 }
 /**/
 
-export default function Polls({polls}) {
+export default function Polls({polls, votes, setVotes}) {
     if (polls == null || polls.length < 1 || polls == undefined) return <div>No polls available.</div>;
 
     return (
         <div className="polls">
-            {polls.map(p => <Poll key={p.id} id={p.id} polls={polls} />)}
+            {polls.map(p => <Poll key={p.id} id={p.id} polls={polls} votes={votes} setVotes={setVotes} />)}
         </div>
     );
 }
@@ -97,7 +97,7 @@ export function NewPoll({polls, setPolls}) {
     );
 }
 
-export function Poll({id, polls}) {
+export function Poll({id, polls, votes, setVotes}) {
     let poll = polls?.find(p => p.id == id);   
     
     if (poll == null || poll == undefined) return;
@@ -106,19 +106,19 @@ export function Poll({id, polls}) {
       <div className="poll">
         <h2>{poll.question}</h2>
         <div>
-            <Opts key={poll.voteOpts} data={poll.voteOpts} />
+            <Opts key={poll.voteOpts} data={poll.voteOpts} votes={votes} setVotes={setVotes} />
         </div>
       </div>  
     );
 }
 
-export function Opts({data}) {
+export function Opts({data, votes, setVotes}) {
     return (
         <ul className="opts">
             {data.map((o, index) => 
             <li key={index}>
                 {o.caption}
-                <Vote optId={o.id} />
+                <Vote opt={o} votes={votes} setVotes={setVotes} />
             </li>)}
         </ul>
     );
@@ -131,6 +131,7 @@ export function NewOpt({opts, setOpts}) {
         e.preventDefault();
         if (caption.trim() === "") return;
         setOpts([...opts, {
+            id: opts.length + 1,
             caption: caption,
             presentationOrder: opts.length + 1
         }]);
