@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class PollController {
 
     private final DomainManager data;
@@ -39,12 +40,12 @@ public class PollController {
      * Create poll by user ... ident. by name
      * */
     @PostMapping("/poll/{name}")
-    public boolean Create(@PathVariable String name, @RequestBody Poll poll) {
+    public int Create(@PathVariable String name, @RequestBody Poll poll) {
         var user = data.getUserByName(name);
 
-        if (user == null) return false;
+        if (user == null) return -1;
 
-        if (!poll.Validate()) return false;
+        if (!poll.Validate()) return -1;
 
         var maxID = data.getData().getPolls().stream().toList().stream().
                 max((p1, p2) -> Integer.compare(p1.getId(), p2.getId()))
@@ -56,7 +57,7 @@ public class PollController {
         data.getData().getPolls().add(poll);
         user.getCreated().add(poll);
 
-        return true;
+        return poll.getId();
     }
 
     /**

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class VoteOptionController {
     private final DomainManager data;
 
@@ -35,8 +36,8 @@ public class VoteOptionController {
      * Create vote option
      * */
     @PostMapping("/opt/")
-    public boolean Create(@RequestBody VoteOption opt) {
-        if (!opt.Validate()) return false;
+    public int Create(@RequestBody VoteOption opt) {
+        if (!opt.Validate()) return -1;
 
         var maxID = data.getData().getVoteOpts().stream().toList()
                 .stream().max((p1, p2) -> Integer.compare(p1.getId(), p2.getId()))
@@ -45,7 +46,7 @@ public class VoteOptionController {
         opt.setId(maxID==null ? 0 : maxID.getId() + 1);
         data.getData().getVoteOpts().add(opt);
 
-        return true;
+        return opt.getId();
     }
 
     /**

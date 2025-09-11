@@ -68,7 +68,7 @@ class Demo1ApplicationTests {
                     .content(mapper.writeValueAsString(opt)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("0"));
 
         mockMvc.perform(get("/opt/0"))
                 .andExpect(status().isOk())
@@ -91,7 +91,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(opt)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("1"));
 
         mockMvc.perform(get("/opt/"))
                 .andExpect(status().isOk())
@@ -110,7 +110,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(opt)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("false"));
+                .andExpect(content().string("-1"));
 
         //Check if was not added
         mockMvc.perform(get("/opt/"))
@@ -335,7 +335,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(opt)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("0"));
 
         opt = new VoteOption();
         opt.setId(1);
@@ -348,7 +348,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(opt)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("1"));
 
         //-----------------------------------------------------------------------
         //Adding
@@ -376,7 +376,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(poll)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("0"));
 
         mockMvc.perform(get("/poll/user1"))
                 .andExpect(status().isOk())
@@ -402,7 +402,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(poll)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("1"));
 
         mockMvc.perform(get("/poll/user1"))
                 .andExpect(status().isOk())
@@ -431,7 +431,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(poll)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("2"));
 
         mockMvc.perform(get("/poll/user2"))
                 .andExpect(status().isOk())
@@ -454,7 +454,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(poll)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("false"));
+                .andExpect(content().string("-1"));
 
         poll.setCreator(user1);
         mockMvc.perform(post("/poll/user1")
@@ -462,7 +462,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(poll)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("false"));
+                .andExpect(content().string("-1"));
 
         poll.setPublishedAt(Instant.now());
         mockMvc.perform(post("/poll/user1")
@@ -470,7 +470,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(poll)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("false"));
+                .andExpect(content().string("-1"));
 
         poll.setQuestion("Question NEW!");
         mockMvc.perform(post("/poll/user1")
@@ -478,7 +478,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(poll)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("false"));
+                .andExpect(content().string("-1"));
 
         //Check if was not added
         mockMvc.perform(get("/poll/user1"))
@@ -501,7 +501,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(poll)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("3"));
 
         //Changing
         polls.get(0).setQuestion("About Question 02.");
@@ -602,7 +602,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(opt)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("0"));
 
         opt = new VoteOption();
         opt.setId(1);
@@ -615,7 +615,7 @@ class Demo1ApplicationTests {
                         .content(mapper.writeValueAsString(opt)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("true"));
+                .andExpect(content().string("1"));
 
         //-----------------------------------------------------------------------
         //Adding
