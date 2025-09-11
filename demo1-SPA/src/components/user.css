@@ -1,3 +1,58 @@
 .user.selected {
     background-color: #d1e7dd;
 }
+
+.user.selected:hover {
+    background-color: #badbcc;
+    cursor: pointer;
+
+    transition: background-color 0.3s;
+}
+
+.user {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.user:hover {
+    background-color: #ebedef;
+    cursor: pointer;
+
+    transition: background-color 0.3s;
+}
+
+.new-user {
+    display: block;
+    position: relative;
+}
+
+.new-user form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.new-user button {
+    padding: 8px 12px;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.new-user button:hover {
+    background-color: #4338ca;
+    transition: background-color 0.3s;
+}
+
+.new-user input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.new-user label {
+    display: grid;
+    gap: 5px;
+}

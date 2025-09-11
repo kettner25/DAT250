@@ -4,6 +4,8 @@ import Polls, { NewPoll } from "./components/PollComponent";
 import User from "./components/UserComponent";
 import { useState } from "react";
 
+import "./app.css";
+
 const URL = "http://localhost:8080";
 
 function App() {
@@ -197,13 +199,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <nav className="p-4 bg-gray-200 flex gap-4">
+      <nav className="p-4 bg-gray-200 flex gap-4 main-nav">
         <Link to="/User" onClick={fetchUsers}>Select User</Link>
         <Link to="/NewPoll">Create Poll</Link>
         <Link to="/Polls" onClick={fetchVoting}>View Polls</Link>
       </nav>
 
-      <div className="p-6">
+      <div className="p-6 content">
         <Routes>
           <Route path="/User" element={<User users={users} setUsers={setUsers} username={currentUsername} setUsername={setCurrentUsername} />} />
           <Route path="/NewPoll" element={<NewPoll polls={currentUser?.created} setPolls={setPolls} />} />

@@ -25,7 +25,7 @@ VoteOpt {
 
 export default function Polls({polls, votes, setVotes}) {
     if (polls == null || polls == undefined) 
-        return <div>
+        return <div className="error">
             <div>User not selected</div>
             <Link to="/User">Select User</Link>
         </div>;
@@ -41,7 +41,7 @@ export default function Polls({polls, votes, setVotes}) {
 
 export function NewPoll({polls, setPolls}) {
     if (polls == null || polls == undefined) 
-        return <div>
+        return <div className="error">
             <div>User not selected</div>
             <Link to="/User">Select User</Link>
         </div>;

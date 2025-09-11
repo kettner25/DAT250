@@ -26,7 +26,6 @@ export default function User({users, setUsers, username, setUsername}) {
                 <div className={u.username == username ? "user selected" : "user"} onClick={() => handleClick(u)} key={u.username} data-key={u.username}>
                     <div> Name: {u.username} </div> 
                     <div> Email: {u.email} </div>
-                    <hr></hr>
                 </div>
                 )
             }

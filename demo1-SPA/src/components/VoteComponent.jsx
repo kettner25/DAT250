@@ -19,7 +19,7 @@ export default function Vote({ opt, votes, setVotes }) {
     };
 
     return (
-        <button onClick={handleVote}>
+        <button onClick={handleVote} className={voted ? "voted" : ""}>
             {voted ? "Unvote" : "Vote"}
         </button>
     );
