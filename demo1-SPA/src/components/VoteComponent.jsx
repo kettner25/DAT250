@@ -15,7 +15,7 @@ export default function Vote({ opt, votes, setVotes }) {
         console.log("Voted for option ID:", opt.id, " Voted:", !voted);
 
         if (voted) setVotes(votes.filter((vote) => vote.option.id != opt.id));
-        else setVotes([...votes, { publishedAt: new Date(Date.now()).toString("yyyy-MM-dd"), option: opt }]);
+        else setVotes([...votes, { publishedAt: new Date(Date.now()).toISOString(), option: opt }]);
     };
 
     return (
