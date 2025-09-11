@@ -11,6 +11,14 @@ User {
 }
 /**/
 
+/**
+ * User on the other hand render all users and handle selection process. 
+ * @param {Array} users - List of users
+ * @param {Function<Array>} setUsers - Function to set users
+ * @param {Array} username - Currently selected username
+ * @param {Function<Array>} setUsername - Function to set username 
+ * @returns 
+ */
 export default function User({users, setUsers, username, setUsername}) {
     const handleClick = (user) => {
         if (user == null || user == undefined) return;
@@ -34,6 +42,13 @@ export default function User({users, setUsers, username, setUsername}) {
     );
 };
 
+
+/**
+ * NewUser is component that create new users.
+ * @param {Array} users - List of users
+ * @param {Function<Array>} setUsers - Function to set users
+ * @returns 
+ */
 export function NewUser({users, setUsers}) {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");

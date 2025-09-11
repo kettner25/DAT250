@@ -8,6 +8,14 @@ Vote {
 }
 /**/
 
+
+/**
+ * Vote component react on user voting for spec. vote
+ * @param {Object} opt - Vote option
+ * @param {Array} votes - List of votes
+ * @param {Function<Array>} setVotes - Function to set votes
+ * @returns 
+ */
 export default function Vote({ opt, votes, setVotes }) {
     const voted = votes?.some(v => v.option.id == opt.id);
     

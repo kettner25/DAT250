@@ -6,7 +6,10 @@ import { useState } from "react";
 
 import "./app.css";
 
-const URL = "http://localhost:8080";
+//const URL = "http://localhost:8080";
+
+//PRODUCTION
+const URL = "";
 
 function App() {
   const [users, _setUsers] = useState([]);
@@ -14,6 +17,12 @@ function App() {
 
   //---------------------------------
 
+  /**
+   * Set users and optionally sync with backend
+   * @param {Array} array 
+   * @param {boolean} db 
+   * @returns 
+   */
   const setUsers = (array, db = true) => {
     if (db) {
       // get user that was added
@@ -38,6 +47,9 @@ function App() {
     _setUsers(array);
   }
 
+  /**
+   * Fetch users from backend
+   */
   const fetchUsers = async () => {
     try {
       const response = await fetch(`${URL}/user/`);
@@ -50,6 +62,11 @@ function App() {
 
   //---------------------------------
 
+  /**
+   * Send options to backend
+   * @param {Array} options 
+   * @returns 
+   */
   const sendOptions = async (options) => {
     if (!currentUser) return;
 
@@ -76,6 +93,12 @@ function App() {
 
   //---------------------------------
 
+  /**
+   * Set polls and optionally sync with backend
+   * @param {Array} array 
+   * @param {boolean} db 
+   * @returns 
+   */
   const setPolls = async (array, db = true) => {
     if (!currentUser) return;
 
@@ -119,6 +142,10 @@ function App() {
     );
   };
 
+  /**
+   * Fetch polls from backend
+   * @returns 
+   */
   const fetchPolls = async () => {
     if (!currentUser) return;
 
@@ -133,6 +160,12 @@ function App() {
 
   //---------------------------------
 
+  /**
+   * Set votes and optionally sync with backend
+   * @param {Array} array 
+   * @param {boolean} db 
+   * @returns 
+   */
   const setVotes = (array, db = true) => {
     if (!currentUser) return;
 
@@ -171,6 +204,10 @@ function App() {
     );
   };
 
+  /**
+   * Fetch votes from backend
+   * @returns 
+   */
   const fetchVotes = async () => {
     if (!currentUser) return;
 
@@ -185,6 +222,10 @@ function App() {
 
   //---------------------------------
 
+  /**
+   * Fetch polls and votes from backend
+   * @returns 
+   */
   const fetchVoting = async () => {
     await fetchPolls();
     await fetchVotes();

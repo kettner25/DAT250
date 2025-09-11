@@ -23,6 +23,13 @@ VoteOpt {
 }
 /**/
 
+/**
+ * Polls component is responsible for rendering all polls for user and rendering VoteComponents. So you can be able to vote.
+ * @param {Array} polls - List of polls
+ * @param {Array} votes - List of votes
+ * @param {Function<Array>} setVotes - Function to set votes
+ * @returns 
+ */
 export default function Polls({polls, votes, setVotes}) {
     if (polls == null || polls == undefined) 
         return <div className="error">
@@ -39,6 +46,12 @@ export default function Polls({polls, votes, setVotes}) {
     );
 }
 
+/**
+ * NewPoll component does create new Poll by selected user and also do add new Options for the Pol
+ * @param {Array} polls - List of polls
+ * @param {Function<Array>} setPolls - Function to set polls
+ * @returns 
+ */
 export function NewPoll({polls, setPolls}) {
     if (polls == null || polls == undefined) 
         return <div className="error">
@@ -116,6 +129,14 @@ export function NewPoll({polls, setPolls}) {
     );
 }
 
+/**
+ * Poll component render one poll in Polls
+ * @param {Number} id - Poll id
+ * @param {Array} polls - List of polls
+ * @param {Array} votes - List of votes
+ * @param {Function<Array>} setVotes - Function to set votes 
+ * @returns 
+ */
 export function Poll({id, polls, votes, setVotes}) {
     let poll = polls?.find(p => p.id == id);   
     
@@ -131,6 +152,14 @@ export function Poll({id, polls, votes, setVotes}) {
     );
 }
 
+
+/**
+ * Opts render options in Polls
+ * @param {Array} data - List of options
+ * @param {Array} votes - List of votes
+ * @param {Function<Array>} setVotes - Function to set votes
+ * @returns 
+ */
 export function Opts({data, votes, setVotes}) {
     return (
         <ul className="opts">
@@ -143,6 +172,12 @@ export function Opts({data, votes, setVotes}) {
     );
 }
 
+/**
+ * NewOpts add new option when creating poll
+ * @param {Array} opts - List of options
+ * @param {Function<Array>} setOpts - Function to set options 
+ * @returns 
+ */
 export function NewOpt({opts, setOpts}) {
     const [caption, setOpt] = useState(""); 
 

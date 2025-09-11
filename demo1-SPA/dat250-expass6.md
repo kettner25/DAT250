@@ -50,8 +50,8 @@ So I did included links to Components below:
 
 Here happens creating, displaying and selecting of Users
 
-````json lines
-"User" {
+````js
+"User": {
     "username": String,
     "email": String,
 
@@ -73,15 +73,15 @@ User on the other hand render all users and handle selection process.
 #### Poll
 
 - [PollComponent](https://github.com/kettner25/DAT250/blob/main/demo1-SPA/src/components/PollComponent.jsx)
-````json lines
-"Poll"
+````js
+"Poll":
 {
     "question": String,
     "publishedAt": Date,
     "validUntil": Date,
     "voteOpts": [Object]
-}
-"VoteOpt"
+},
+"VoteOpt":
 {
     "caption": String,
     "presentationOrder": Number,
@@ -117,8 +117,8 @@ NewOpts add new option when creating poll
 
 - [VoteComponent](https://github.com/kettner25/DAT250/blob/main/demo1-SPA/src/components/VoteComponent.jsx)
 
-````json lines
-"Vote" {
+````js
+"Vote": {
     "publishedAt": Date,
     "option": VoteOption
 }
