@@ -1,9 +1,9 @@
 .user.selected {
-    background-color: #d1e7dd;
+    background-color: #ccf6e3;
 }
 
 .user.selected:hover {
-    background-color: #badbcc;
+    background-color: #b2ebd4;
     cursor: pointer;
 
     transition: background-color 0.3s;
