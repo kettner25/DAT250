@@ -4,7 +4,7 @@ import "./poll.css";
 import { useState } from "react";
 import Vote from "./VoteComponent";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 /*Poll consisted of
 Poll {
@@ -24,7 +24,13 @@ VoteOpt {
 /**/
 
 export default function Polls({polls, votes, setVotes}) {
-    if (polls == null || polls.length < 1 || polls == undefined) return <div>No polls available.</div>;
+    if (polls == null || polls == undefined) 
+        return <div>
+            <div>User not selected</div>
+            <Link to="/User">Select User</Link>
+        </div>;
+
+    if (polls == null || polls.length < 1) return <div>No polls available.</div>;
 
     return (
         <div className="polls">
@@ -34,7 +40,11 @@ export default function Polls({polls, votes, setVotes}) {
 }
 
 export function NewPoll({polls, setPolls}) {
-    if (polls == null || polls == undefined) return <div>No polls available.</div>;
+    if (polls == null || polls == undefined) 
+        return <div>
+            <div>User not selected</div>
+            <Link to="/User">Select User</Link>
+        </div>;
 
     const [question, setQuestion] = useState("");
     const [valid, setDate] = useState("");
