@@ -10,11 +10,6 @@ function App() {
   const [users, _setUsers] = useState([]);
   const [currentUsername, setCurrentUsername] = useState("");
 
-  // Fetch users when the component mounts
-  useState(() => {
-    fetchUsers();
-  }, []);
-
   //---------------------------------
 
   const setUsers = (array, db = true) => {
@@ -53,7 +48,33 @@ function App() {
 
   //---------------------------------
 
-  const setPolls = (array, db = true) => {
+  const sendOptions = async (options) => {
+    if (!currentUser) return;
+
+    try {
+      for (let i = 0; i < options.length; i++) {
+        let res = await fetch(`${URL}/opt/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(options[i]),
+        });
+
+        if (!res.ok) throw new Error(data.message || "Failed to add options");
+        const data = await res.json();
+        if (data == null || data == undefined || data == -1) throw new Error("Failed to add options");
+
+        options[i].id = data;
+      }
+    } catch (error) {
+      console.error("Error adding options:", error);
+    }
+  };
+
+  //---------------------------------
+
+  const setPolls = async (array, db = true) => {
     if (!currentUser) return;
 
     if (db) {
@@ -64,14 +85,24 @@ function App() {
       
       if (poll == null || poll == undefined) return;
 
+      const __poll = array.find(p => p.id == poll);
+
+      await sendOptions(__poll.voteOpts);
+
       try {
-        fetch(`${URL}/poll/${currentUser.username}`, {
+        let res = await fetch(`${URL}/poll/${currentUser.username}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(array.find(p => p.id == poll)),
+          body: JSON.stringify(__poll),
         });
+
+        if (!res.ok) throw new Error(res.message || "Failed to add poll");
+        const data = await res.json();
+        if (data == null || data == undefined || data == -1) throw new Error("Failed to add poll");
+
+        __poll.id = data; // set the id returned from the server
       } catch (error) {
         console.error("Error adding poll:", error);
       }
@@ -79,7 +110,7 @@ function App() {
 
     // update user's created polls
 
-    setUsers((prev) =>
+    _setUsers((prev) =>
       prev.map((user) =>
         (user.username == currentUser.username ? { ...user, created: array } : user)
       )
@@ -131,7 +162,7 @@ function App() {
 
     // update user's voted polls
 
-    setUsers((prev) =>
+    _setUsers((prev) =>
       prev.map((user) =>
         (user.username == currentUser?.username ? { ...user, voted: array } : user)
       )
@@ -155,7 +186,12 @@ function App() {
   const fetchVoting = async () => {
     await fetchPolls();
     await fetchVotes();
-  }
+  };
+
+  // Fetch users when the component mounts
+  useState(() => {
+    fetchUsers();
+  }, []);
 
   const currentUser = users.find((u) => u.username == currentUsername);
 

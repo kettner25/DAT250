@@ -52,7 +52,7 @@ export function NewPoll({polls, setPolls}) {
             id: polls.length + 1,
             question: question,
             publishedAt: new Date(Date.now()).toISOString(),
-            validUntil: valid,
+            validUntil: new Date(valid).toISOString(),
             voteOpts: opts,
         };
         setPolls([...polls, newPoll]); 
