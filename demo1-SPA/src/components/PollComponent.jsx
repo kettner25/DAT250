@@ -4,6 +4,8 @@ import "./poll.css";
 import { useState } from "react";
 import Vote from "./VoteComponent";
 
+import { useNavigate } from "react-router-dom";
+
 /*Poll consisted of
 Poll {
     question: String,
@@ -68,9 +70,16 @@ export function NewPoll({polls, setPolls}) {
         setOpts([]);
     };
 
+    let navigate = useNavigate();
+    
+    const closeDialog = () => {
+        handleReset();
+        navigate("/Polls");
+    };
+
     return (
         <dialog className="new-poll">
-            <button className="close">×</button>
+            <button className="close" onClick={closeDialog}>×</button>
             <h2>Create New Poll</h2>
             <form method="dialog" onSubmit={handleSubmit} onReset={handleReset}>
                 <label>
