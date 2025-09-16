@@ -1,6 +1,7 @@
 package com.example.demo.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,13 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "users")
 @NoArgsConstructor
 public class User {
     //Unique
+    @Id
+    @Column(name = "username")
     private String username;
     private String email;
 
+    @OneToMany(mappedBy = "creator")
     private List<Poll> created = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
     private List<Vote> voted = new ArrayList<>();
 
     public boolean Validate() {

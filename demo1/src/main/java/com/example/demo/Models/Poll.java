@@ -1,6 +1,7 @@
 package com.example.demo.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -11,20 +12,25 @@ import java.util.Comparator;
 import java.util.List;
 
 @Data
-
+@Entity
+@Table(name = "polls")
 //needs to be added because of recursion when hashcode is being calc
 @EqualsAndHashCode(exclude = "creator")
 public class Poll {
     //Unique
-    private int id = -1;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id = -1;
 
     private String question;
     private Instant publishedAt;
     private Instant validUntil;
 
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VoteOption> voteOpts = new ArrayList<>();
 
     @JsonIgnore
+    @ManyToOne
     private User creator;
 
     public boolean Validate() {
@@ -55,6 +61,7 @@ public class Poll {
         if (a != null) order = a.getPresentationOrder() + 1;
 
         voteOption.setPresentationOrder(order);
+        voteOption.setPoll(this);
 
         voteOpts.add(voteOption);
 
