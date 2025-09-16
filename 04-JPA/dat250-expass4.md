@@ -70,6 +70,8 @@ emf.getSchemaManager().create(true);
 ![alt text](https://raw.githubusercontent.com/kettner25/DAT250/refs/heads/main/04-JPA/Tables.png)
 ![alt text](https://raw.githubusercontent.com/kettner25/DAT250/refs/heads/main/04-JPA/View.png)
 
+![alt text](https://raw.githubusercontent.com/kettner25/DAT250/refs/heads/main/04-JPA/Test-passing.png)
+
 ### Link
 
 Here is a link to my 
