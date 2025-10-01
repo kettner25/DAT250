@@ -173,12 +173,31 @@ This is what I got in output.
     //[270]
 ```
 
+### Cache
+
+For cache I created service class that would manage redis (resp. Jedis).
+
+Into cache I do store json Poll object as presented above.
+
+I chosed that TTL for items in my cache would be 60 sec. Ideal for dynamic
+work with data with smaller percentage of collisions ... and invalidating votes.
+
+My cache can do 3 main funcs. Adding poll, finding poll by its ID and Invalidating poll.
+
+[Link](https://github.com/kettner25/DAT250/blob/main/05-Redis/demo/src/main/java/com/example/demo/VoteCntCache.java)
+
+I also created a tests that test a redis connection in described logic.
+
+```
+1- The client checks whether the poll is cached
+2. If "yes", the numbers are returned at once and a response is send
+3. otherwise, the client has to contact the database (probably via JPA) and aggregate the numbers himself
+4. before returning, the client can put the current state of the poll into the cache such that subsequent calls my be faster.
+```
+
 ### Problems
 
 I was not facing any significant technical problems. The only think
-I dont compleatly understand it if we were supposed to create a service
-that would handle if polls are cashed or in DB (with settuping JPA, ect), 
-or if it is only real use case. Because we happened to do the casching part
-in previous cases.
+I am not sure about is if I understood assignment with cache properly.
 
 
