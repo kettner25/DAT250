@@ -1,4 +1,9 @@
-## Intro & description
+## Redis
+
+- Created by Lubos Kettner
+- In course DAT250
+
+### Intro & description
 
 Subject of this exercise was to try using redis NO-SQL database.
 I chosed to work with redis in combination with docker. 
@@ -199,5 +204,7 @@ I also created a tests that test a redis connection in described logic.
 
 I was not facing any significant technical problems. The only think
 I am not sure about is if I understood assignment with cache properly.
+
+Hopefully I did and presented work will be to your satisfaction.
 
 
