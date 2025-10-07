@@ -9,6 +9,8 @@ public class PollTopicVoteModel {
         UnVote
     }
 
+    public PollTopicVoteModel() {}
+
     public PollTopicVoteModel(String name, Integer pollID, Integer optID, VoteType type) {
         Username = name;
         PollID = pollID;

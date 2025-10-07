@@ -1,0 +1,12 @@
+*1. Při vytváření Pollu -> vytvoř nový topic
+*2. Poté subscribni tento nový topic
+   - Na topicu lze:
+	1. Poslouchat updaty
+	2. Pushovat změny (spec. vote - když bylo zvoleno)
+*3. Pokud je na topicu update vote event -> aktualizuj DB
+
+... Na začátku je potřeba vytvořit topic pro všechny existující polly
+... App samotná by měla moct fungovat bez Rabbitu
+... Anonymní Vote ... nemusí to vytvářet přímo existující uživatel
+
+*...? Mazání pollu?

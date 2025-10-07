@@ -31,7 +31,6 @@ public class Vote {
     public boolean Validate() {
         if (publishedAt == null) return false;
         if (option == null) return false;
-        if (user == null) return false;
 
         return true;
     }
