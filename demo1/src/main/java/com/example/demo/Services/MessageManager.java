@@ -1,7 +1,12 @@
 package com.example.demo.Services;
 
+import com.example.demo.Components.DomainManager;
+import com.example.demo.Conf.RabbitConfiguration;
 import com.example.demo.Models.Poll;
 
+import com.example.demo.Models.PollTopicVoteModel;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -17,10 +22,15 @@ public class MessageManager {
     private final TopicExchange topicExch;
     private final ConnectionFactory connFactory;
 
-    public MessageManager(AmqpAdmin _amqpAdmin, TopicExchange _topicExchange, ConnectionFactory _connFac) {
+    private final DomainManager data;
+    private final ObjectMapper mapper;
+
+    public MessageManager(AmqpAdmin _amqpAdmin, TopicExchange _topicExchange, ConnectionFactory _connFac, DomainManager data, ObjectMapper mapper) {
         this.amqpAdmin = _amqpAdmin;
         this.topicExch = _topicExchange;
         this.connFactory = _connFac;
+        this.data = data;
+        this.mapper = mapper;
     }
 
     public void RegisterAndSubscribeTopic(Poll poll) {
@@ -49,16 +59,34 @@ public class MessageManager {
             String msq = new String(message.getBody());
             System.out.printf("Vote event received for Poll %d: %s%n", poll.getId(), msq);
 
-            handleVoteEvent(poll, msq);
+            try {
+                handlePollToppicVoteEvent(poll, msq);
+            } catch (JsonProcessingException e) { throw new RuntimeException(e); }
         });
         container.start();
 
         System.out.println("Topic subscribed: " + queueName);
     }
 
-    private void handleVoteEvent(Poll poll, String msq) {
-        // parse payload and update DB
-        // e.g., payload = {"optionId":3}
-        // increment vote count for option 3 in poll 42
+    public void deletePollTopic(Poll poll) {
+        String queueName = "poll-" + poll.getId();
+        String routingKey = "poll." + poll.getId();
+
+        amqpAdmin.removeBinding(new Binding(queueName, Binding.DestinationType.QUEUE, RabbitConfiguration.POLL_EXCHANGE, routingKey, null));
+
+        amqpAdmin.deleteQueue(queueName);
+    }
+
+    private void handlePollToppicVoteEvent(Poll poll, String msg) throws JsonProcessingException {
+        var val = mapper.readValue(msg, PollTopicVoteModel.class);
+
+        switch (val.getType()) {
+            case Vote -> {
+                data.addVote(val.getUsername(), val.getOptID());
+            }
+            case UnVote -> {
+                data.removeVote(val.getUsername(), val.getOptID());
+            }
+        }
     }
 }

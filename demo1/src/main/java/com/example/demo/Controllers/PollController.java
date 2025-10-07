@@ -2,6 +2,8 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Components.DomainManager;
 import com.example.demo.Models.Poll;
+import com.example.demo.Services.MessageManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,10 +12,13 @@ import java.util.List;
 @CrossOrigin
 public class PollController {
 
+    private final MessageManager messageManager;
+
     private final DomainManager data;
 
-    public PollController(DomainManager _data) {
+    public PollController(DomainManager _data, MessageManager messageManager) {
         this.data = _data;
+        this.messageManager = messageManager;
     }
 
     /**
@@ -57,6 +62,8 @@ public class PollController {
         data.getData().getPolls().add(poll);
         user.getCreated().add(poll);
 
+        messageManager.RegisterAndSubscribeTopic(poll);
+
         return poll.getId();
     }
 
@@ -95,6 +102,7 @@ public class PollController {
 
         poll.getCreator().getCreated().remove(poll);
         data.getData().getPolls().removeIf(f -> f.getId() == id);
+        messageManager.deletePollTopic(poll);
 
         return true;
     }

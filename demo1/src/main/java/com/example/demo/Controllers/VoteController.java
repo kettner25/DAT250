@@ -1,9 +1,14 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Components.DomainManager;
+import com.example.demo.Conf.RabbitConfiguration;
+import com.example.demo.Models.PollTopicVoteModel;
 import com.example.demo.Models.User;
 import com.example.demo.Models.Vote;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.Filter;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,8 +19,14 @@ import java.util.List;
 class VoteController {
     private final DomainManager data;
 
-    VoteController(DomainManager _data) {
+    private final RabbitTemplate rabbitTemplate;
+
+    private final ObjectMapper mapper;
+
+    VoteController(DomainManager _data, RabbitTemplate rabbitTemplate, ObjectMapper mapper) {
         this.data = _data;
+        this.rabbitTemplate = rabbitTemplate;
+        this.mapper = mapper;
     }
 
     /**
@@ -50,24 +61,22 @@ class VoteController {
      * Create vote by user
      * */
     @PostMapping("/vote/{name}")
-    public boolean Create(@PathVariable String name, @RequestBody Vote vote) {
+    public boolean Create(@PathVariable String name, @RequestBody Vote vote) throws JsonProcessingException {
         if (!vote.Validate()) return false;
 
-        var user = data.getUserByName(name);
+        Integer pollID = data.getPollIdByOption(vote.getOption());
 
-        if (user == null) return false;
+        if  (pollID == null) return false;
 
-        var opt = data.getVoteOptById(vote.getOption().getId());
+        PollTopicVoteModel model = new PollTopicVoteModel(name, pollID, vote.getOption().getId(), PollTopicVoteModel.VoteType.Vote);
 
-        if (opt == null) return false;
-
-        if (user.getVoted().stream().filter(f -> f.getOption().getId() == opt.getId()).findFirst().orElse(null) != null) return false;
-
-        vote.setOption(opt);
-        vote.setUser(user);
-        user.getVoted().add(vote);
+        String routingKey = "poll." + pollID;
+        try {
+            rabbitTemplate.convertAndSend(RabbitConfiguration.POLL_EXCHANGE, routingKey, mapper.writeValueAsString(model));
+        } catch (Exception e) { return false; }
 
         return true;
+        //return data.addVote(name, vote.getOption().getId());
     }
 
     /**
@@ -115,11 +124,21 @@ class VoteController {
      * */
     @DeleteMapping("/vote/{name}/{id}")
     public boolean Delete(@PathVariable String name, @PathVariable int id) {
-        var user = data.getUserByName(name);
+        var opt = data.getVoteOptById(id);
 
-        if (user == null) return false;
+        Integer pollID = data.getPollIdByOption(opt);
 
-        return user.getVoted().removeIf(f  -> f.getOption().getId() == id);
+        if  (pollID == null) return false;
+
+        PollTopicVoteModel model = new PollTopicVoteModel(name, pollID, id, PollTopicVoteModel.VoteType.UnVote);
+
+        String routingKey = "poll." + pollID;
+        try {
+            rabbitTemplate.convertAndSend(RabbitConfiguration.POLL_EXCHANGE, routingKey, mapper.writeValueAsString(model));
+        } catch (Exception e) { return false; }
+
+        return true;
+
+        //return data.removeVote(name, id);
     }
-
 }
