@@ -112,17 +112,6 @@ appuser@796b475068fc:/$
 
 Then I tested inside connection and network stuff
 
-```BASH
-netstat -tuln
-```
-
-```BASH
-Active Internet connections (only servers)
-
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-
-tcp6       0      0 :::8080                 :::*                    LISTEN
-```
 
 ```BASH
 curl http://localhost:8080/
